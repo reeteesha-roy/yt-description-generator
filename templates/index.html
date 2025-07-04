@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>YouTube Title & Description Generator</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>YouTube Video Description Generator</h1>
+    <form method="post">
+      <textarea name="summary" id="summary" placeholder="Paste your video script or summary..." required></textarea>
+      <button type="submit">Generate Title & Description</button>
+    </form>
+    
+    {% if title_desc %}
+    <div class="output-box">
+      <h2>Generated Metadata</h2>
+      
+      <div class="result-section">
+        <div class="result-title">Title:</div>
+        <div class="result-content" id="generated-title">
+          {{ title_desc.split('Title: ')[1].split('Description: ')[0].strip() }}
+          <button class="copy-btn" onclick="copyToClipboard('generated-title')">Copy</button>
+        </div>
+        <div class="character-counter">
+          <div class="counter-item" id="title-counter">
+            Title: <span id="title-count">0</span>/100 characters
+          </div>
+        </div>
+      </div>
+
+      <div class="result-section">
+        <div class="result-title">Description:</div>
+        <div class="result-content" id="generated-description">
+          {{ title_desc.split('Description: ')[1].strip() }}
+          <button class="copy-btn" onclick="copyToClipboard('generated-description')">Copy</button>
+        </div>
+        <div class="character-counter">
+          <div class="counter-item" id="desc-counter">
+            Description: <span id="desc-count">0</span>/5000 characters
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tips-section">
+      <h3>YouTube Optimization Tips</h3>
+      <p>
+        You can refer to the following suggestions to improve your results!
+      </p>
+      <ul>
+        <li><strong>Title:</strong> Keep under 70 characters for mobile visibility</li>
+        <li><strong>Description:</strong> First 125 characters show in search results</li>
+        <li><strong>Keywords:</strong> Include target keywords naturally in both title and description</li>
+        <li><strong>Hashtags:</strong> Use 3-5 relevant hashtags maximum</li>
+      </ul>
+    </div>
+    {% endif %}
+  </div>
+
+  <script>
+    function updateCharacterCount() {
+      const titleElement = document.getElementById('generated-title');
+      const descElement = document.getElementById('generated-description');
+      
+      if (titleElement && descElement) {
+        // Get text content without buttons
+        const titleText = titleElement.childNodes[0].textContent.trim();
+        const descText = descElement.childNodes[0].textContent.trim();
+        
+        const titleCount = titleText.length;
+        const descCount = descText.length;
+        
+        // Update counters
+        document.getElementById('title-count').textContent = titleCount;
+        document.getElementById('desc-count').textContent = descCount;
+        
+        // Update title counter styling
+        const titleCounter = document.getElementById('title-counter');
+        titleCounter.className = 'counter-item';
+        if (titleCount <= 70) {
+          titleCounter.classList.add('counter-good');
+          titleCounter.innerHTML = `Title: <span id="title-count">${titleCount}</span>/100 characters ✓`;
+        } else if (titleCount <= 100) {
+          titleCounter.classList.add('counter-warning');
+          titleCounter.innerHTML = `Title: <span id="title-count">${titleCount}</span>/100 characters ⚠️`;
+        } else {
+          titleCounter.classList.add('counter-danger');
+          titleCounter.innerHTML = `Title: <span id="title-count">${titleCount}</span>/100 characters ❌`;
+        }
+        
+        // Update description counter styling
+        const descCounter = document.getElementById('desc-counter');
+        descCounter.className = 'counter-item';
+        if (descCount <= 4000) {
+          descCounter.classList.add('counter-good');
+          descCounter.innerHTML = `Description: <span id="desc-count">${descCount}</span>/5000 characters ✓`;
+        } else if (descCount <= 5000) {
+          descCounter.classList.add('counter-warning');
+          descCounter.innerHTML = `Description: <span id="desc-count">${descCount}</span>/5000 characters ⚠️`;
+        } else {
+          descCounter.classList.add('counter-danger');
+          descCounter.innerHTML = `Description: <span id="desc-count">${descCount}</span>/5000 characters ❌`;
+        }
+      }
+    }
+
+    function copyToClipboard(elementId) {
+      const element = document.getElementById(elementId);
+      const text = element.childNodes[0].textContent.trim();
+      
+      navigator.clipboard.writeText(text).then(() => {
+        // Temporarily change button text
+        const button = element.querySelector('.copy-btn');
+        const originalText = button.textContent;
+        button.textContent = 'Copied!';
+        button.style.backgroundColor = '#17a2b8';
+        
+        setTimeout(() => {
+          button.textContent = originalText;
+          button.style.backgroundColor = '#28a745';
+        }, 2000);
+      });
+    }
+
+    // Initialize character counting when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      updateCharacterCount();
+    });
+  </script>
+</body>
+</html>
