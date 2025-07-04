@@ -10,12 +10,22 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 def generate_title_description(video_summary):
     prompt = f"""
-You are an expert YouTube content strategist.
+You are an expert YouTube content strategist. Given the script or summary of a video, generate the following:
 
-Given this video summary: "{video_summary}"
+1. A **catchy, click-worthy video title** (max 100 characters)
+2. An **SEO-optimized video description** (1–2 paragraphs)
+3. Optionally include **3–5 relevant hashtags** at the end of the description
 
-1. Generate a short, clickable YouTube video title (max 70 characters).
-2. Write a SEO-friendly, engaging description (around 100–150 words) with keywords, emojis, and hashtags if relevant.
+Make sure the title:
+- Hooks the viewer emotionally or intellectually
+- Avoids clickbait
+- Fits within YouTube's mobile display limit (70–100 characters)
+
+Make sure the description:
+- Includes **target keywords**
+- Summarizes the value of the video clearly
+- Uses natural, engaging tone
+
 
 Respond in this format:
 Title: ...
@@ -25,11 +35,11 @@ Description: ...
     response = client.chat.completions.create(
         model="gpt-4o-mini",
         messages=[
-            {"role": "system", "content": "You help creators optimize YouTube metadata."},
+            {"role": "system", "content": "You are a helpful assistant that formats YouTube metadata."},
             {"role": "user", "content": prompt}
         ],
         temperature=0.8,
-        max_tokens=300
+        max_tokens=500
     )
 
     return response.choices[0].message.content
