@@ -8,15 +8,17 @@ This YouTube Title & Description Generator harnesses the power of OpenAI's GPT-4
 - Git (optional)
 
 ## Project Structure
-  yt-generator/
-├── 📄 app.py                    # Flask backend application
-├── 📁 templates/
-│   └── 📄 index.html           # Main HTML template with AI output display
-├── 📁 static/
-│   └── 📄 styles.css           # Enhanced CSS with responsive design
-├── 📄 .env                     # Environment variables (API keys)
-├── 📄 requirements.txt         # Python dependencies
-└── 📄 README.md               # Project documentation
+<pre>
+yt-generator/
+├── app.py                    # Flask backend application
+├── templates/
+│   └── index.html           # Main HTML template with AI output display
+├── static/
+│   └── styles.css           # Enhanced CSS with responsive design
+├── .env                     # Environment variables (API keys)
+├── requirements.txt         # Python dependencies
+└── README.md               # Project documentation
+</pre>
 
 ## Step 1: Clone the Repository
 
