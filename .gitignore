@@ -1,6 +1,6 @@
 *.pyc
 *.pyo
 *.pyd
-.env.*
+.env
 .DS_Store
 venv/
