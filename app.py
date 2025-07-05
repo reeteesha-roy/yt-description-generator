@@ -70,5 +70,13 @@ def index():
     return render_template("index.html", title=title_text, description=desc_text)
 
 # To run locally
+#if __name__ == "__main__":
+   #app.run(debug=True) 
+
 if __name__ == "__main__":
-   app.run(debug=True) 
+    # Get port from environment variable or default to 5000
+    port = int(os.environ.get('PORT', 5000))
+    # Check if we're in production (Render sets NODE_ENV or similar)
+    is_production = os.environ.get('RENDER') is not None
+    
+    app.run(host='0.0.0.0', port=port, debug=not is_production)
