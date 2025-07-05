@@ -14,14 +14,14 @@
       <button type="submit">Generate Title & Description</button>
     </form>
     
-    {% if title_desc %}
+    {% if title and description %}
     <div class="output-box">
       <h2>Generated Metadata</h2>
       
       <div class="result-section">
         <div class="result-title">Title:</div>
         <div class="result-content" id="generated-title">
-          {{ title_desc.split('Title: ')[1].split('Description: ')[0].strip() }}
+          {{ title }}
           <button class="copy-btn" onclick="copyToClipboard('generated-title')">Copy</button>
         </div>
         <div class="character-counter">
@@ -34,7 +34,7 @@
       <div class="result-section">
         <div class="result-title">Description:</div>
         <div class="result-content" id="generated-description">
-          {{ title_desc.split('Description: ')[1].strip() }}
+          {{ description }}
           <button class="copy-btn" onclick="copyToClipboard('generated-description')">Copy</button>
         </div>
         <div class="character-counter">
@@ -44,17 +44,15 @@
         </div>
       </div>
     </div>
-
+    
     <div class="tips-section">
       <h3>YouTube Optimization Tips</h3>
-      <p>
-        You can refer to the following suggestions to improve your results!
-      </p>
+      <p>You can refer to the following suggestions to improve your results!</p>
       <ul>
         <li><strong>Title:</strong> Keep under 70 characters for mobile visibility</li>
         <li><strong>Description:</strong> First 125 characters show in search results</li>
         <li><strong>Keywords:</strong> Include target keywords naturally in both title and description</li>
-        <li><strong>Hashtags:</strong> Use 3-5 relevant hashtags maximum</li>
+        <li><strong>Hashtags:</strong> Use 3–5 relevant hashtags maximum</li>
       </ul>
     </div>
     {% endif %}
@@ -66,18 +64,15 @@
       const descElement = document.getElementById('generated-description');
       
       if (titleElement && descElement) {
-        // Get text content without buttons
         const titleText = titleElement.childNodes[0].textContent.trim();
         const descText = descElement.childNodes[0].textContent.trim();
         
         const titleCount = titleText.length;
         const descCount = descText.length;
         
-        // Update counters
         document.getElementById('title-count').textContent = titleCount;
         document.getElementById('desc-count').textContent = descCount;
-        
-        // Update title counter styling
+
         const titleCounter = document.getElementById('title-counter');
         titleCounter.className = 'counter-item';
         if (titleCount <= 70) {
@@ -90,8 +85,7 @@
           titleCounter.classList.add('counter-danger');
           titleCounter.innerHTML = `Title: <span id="title-count">${titleCount}</span>/100 characters ❌`;
         }
-        
-        // Update description counter styling
+
         const descCounter = document.getElementById('desc-counter');
         descCounter.className = 'counter-item';
         if (descCount <= 4000) {
@@ -112,7 +106,6 @@
       const text = element.childNodes[0].textContent.trim();
       
       navigator.clipboard.writeText(text).then(() => {
-        // Temporarily change button text
         const button = element.querySelector('.copy-btn');
         const originalText = button.textContent;
         button.textContent = 'Copied!';
@@ -125,7 +118,6 @@
       });
     }
 
-    // Initialize character counting when page loads
     document.addEventListener('DOMContentLoaded', function() {
       updateCharacterCount();
     });
